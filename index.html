@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en us">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <title>Meteo App</title>
+  </head>
+  <body>
+    <div class="weather-app">
+      <header>
+        <form class="search-form" id="search-form">
+          <input
+            type="search"
+            placeholder="Enter a city.."
+            required
+            id="search-form-input"
+            class="search-form-input"
+          />
+          <input type="submit" value="Search" class="search-form-button" />
+        </form>
+      </header>
+      <main>
+        <div class="weather-app-data">
+          <div>
+            <h1 class="weather-app-city" id="city">New York</h1>
+            <p class="weather-app-details">
+              <span id="time">Sunday 9:00</span>,
+              <span id="description">Cloudy</span>
+              <br />
+              Humidity: <strong id="humidity">67%</strong>, Wind:
+              <strong id="wind-speed">3.89 km/h</strong>
+            </p>
+          </div>
+          <div class="weather-app-temperature-container">
+            <div id="icon">
+              <img
+                src="C:\Users\nazni\OneDrive\Desktop\src\sunny.png"
+                class="weather-app-icon"
+              />
+            </div>
+            <div class="weather-app-temperature" id="temperature">28</div>
+            <div class="weatehr-app-unit">°C</div>
+          </div>
+        </div>
+      </main>
+
+      <footer>
+        This project was coded by
+        <a href="https://github.com/naznin07" target="_blank">Naznin Sultana</a>
+        and is
+        <a href="https://github.com/naznin07/Weather" target="_blank">
+          on GitHub</a
+        >
+        and
+        <a
+          href="https://app.netlify.com/teams/naffect1/overview"
+          target="_blank"
+          >hosted on Netlify</a
+        >
+      </footer>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>
