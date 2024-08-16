@@ -1,25 +1,21 @@
 function refreshWeather(response) {
-  let cityElement = document.querySelector("#city");
-  cityElement.innerHTML = response.data.location.name;
   let temperatureElement = document.querySelector("#temperature");
-  let temperature = response.data.current.temp_c;
-
+  let temperature = response.data.temperature.current;
+  let cityElement = document.querySelector("#city");
+  let descriptionElement = document.querySelector("#description");
   let humidityElement = document.querySelector("#humidity");
   let windSpeedElement = document.querySelector("#wind-speed");
-  windSpeedElement.innerHTML = `${response.data.current.wind_mph}km/h`;
-  humidityElement.innerHTML = `${response.data.current.humidity}%`;
-  temperatureElement.innerHTML = Math.round(temperature);
   let timeElement = document.querySelector("#time");
+  let date = new Date(response.data.time * 1000);
+  let iconElement = document.querySelector("#icon");
 
-  let date = new Date(response.data.location.localtime);
+  cityElement.innerHTML = response.data.city;
   timeElement.innerHTML = formatDate(date);
-  let descriptionElement = document.querySelector("#description");
-  descriptionElement.innerHTML = response.data.current.condition.text;
-  let iconElement = document.querySelector(".weather-app-icon");
-  let iconUrl = response.data.current.condition.icon;
-
-  iconElement.src = `https:${iconUrl}`;
-  getForecast(response.data.location.name);
+  descriptionElement.innerHTML = response.data.condition.description;
+  humidityElement.innerHTML = `${response.data.temperature.humidity}%`;
+  windSpeedElement.innerHTML = `${response.data.wind.speed}km/h`;
+  temperatureElement.innerHTML = Math.round(temperature);
+  iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" class="weather-app-icon" />`;
 }
 
 function formatDate(date) {
@@ -44,9 +40,8 @@ function formatDate(date) {
 }
 
 function searchCity(city) {
-  let apiKey = "063d8a4225924dfc97512815241907";
-  let apiUrl = `https://api.weatherapi.com/v1/current.json?q=${city}&lang=en&key=${apiKey}`;
-
+  let apiKey = "8ff7etab40db237fa70dfac60c1o5839";
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}`;
   axios.get(apiUrl).then(refreshWeather);
 }
 
@@ -57,52 +52,6 @@ function handleSearchSubmit(event) {
   searchCity(searchInput.value);
 }
 
-function formatDay(timestamp) {
-  let date = new Date(timestamp * 1000);
-  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-  return days[date.getDay()];
-}
-
-function getForecast(city) {
-  let apiKey = "063d8a4225924dfc97512815241907";
-  let apiUrl = `https://api.weatherapi.com/v1/forecast.json?q=${city}&lang=en&key=${apiKey}&days=7&aqi=no&alerts=no`;
-  axios.get(apiUrl).then(displayForecast);
-}
-
-function displayForecast(response) {
-  console.log(response.data);
-
-  let forecastHtml = "";
-
-  response.data.forecast.forecastday.forEach(function (day, index) {
-    if (index < 5) {
-      let dayOfWeek = formatDay(day.date_epoch);
-
-      forecastHtml =
-        forecastHtml +
-        `
-           <div class="weather-forecast-day">
-          <div class="weather-forecast-date">${dayOfWeek}</div>
-            <div class="weather-forecast-icon">
-              <img src="https:${day.day.condition.icon}" alt="${
-          day.day.condition.text
-        }" />
-          <div class="weather-forecast-temperatures">
-            <div class="weather-forecast-temperature">
-              <strong>${Math.round(day.day.maxtemp_c)}º</strong>
-            </div>
-            <div class="weather-forecast-temperature">${Math.round(
-              day.day.mintemp_c
-            )}º</div>
-          </div>
-        </div>
-      `;
-    }
-  });
-  let forecastElement = document.querySelector("#forecast");
-  forecastElement.innerHTML = forecastHtml;
-}
 let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", handleSearchSubmit);
 
